@@ -18,7 +18,6 @@ impl Default for Person {
     }
 }
 
-// I AM NOT DONE
 // Your task is to complete this implementation
 // in order for the line `let p = Person::from("Mark,20")` to compile
 // Please note that you'll need to parse the age component into a `usize`
@@ -35,6 +34,24 @@ impl Default for Person {
 // Otherwise, then return an instantiated Person object with the results
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        // empty string case
+        if s.len() == 0 {
+            return Person::default();
+        }
+
+        let parts = s.split(',').collect::<Vec<_>>();
+
+        let name: &str = &parts[0];
+        let age: usize;
+        match parts[1].parse::<usize>() {
+            Ok(age_) => age = age_,
+            Err(_) => return Person::default(),
+        };
+
+        Person {
+            name: String::from(name),
+            age: age,
+        }
     }
 }
 
